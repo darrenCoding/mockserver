@@ -2,7 +2,7 @@
   "name": "mockserver",
   "version": "1.0.0",
   "description": "A platform of mocking data and providing interface management ",
-  "main": "app.js",
+  "main": "start.js",
   "engines": {
     "node": "5.2.0"
   },
