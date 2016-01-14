@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "description": "A platform of mocking data and providing interface management ",
   "main": "app.js",
+  "engines": {
+    "node": "5.2.0"
+  },
+  "repository": "https://github.com/darrenCoding/mockserver",
   "scripts": {
+     "start" : "node start"
   },
   "author": "darren",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "compression": "^1.6.0",
     "connect": "^3.4.0",
