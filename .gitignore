@@ -1,0 +1,17 @@
+logs
+*.log
+npm-debug.log*
+
+node_modules
+
+mockdoc
+
+index.html
+
+interface
+
+api
+
+doc
+
+
