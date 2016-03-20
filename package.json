@@ -11,7 +11,7 @@
     "start": "node start"
   },
   "bin" : {
-    "mockserver" : "./bin/mock.js" 
+    "mockserver" : "./bin/server.js" 
   },
   "author": "darren",
   "license": "MIT",
