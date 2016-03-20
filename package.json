@@ -8,7 +8,10 @@
   },
   "repository": "https://github.com/darrenCoding/mockserver",
   "scripts": {
-     "start" : "node start"
+    "start": "node start"
+  },
+  "bin" : {
+    "mockserver" : "./bin/mock.js" 
   },
   "author": "darren",
   "license": "MIT",
@@ -18,11 +21,14 @@
     "iconv-lite": "^0.4.13",
     "log4js": "^0.6.29",
     "mime-types": "^2.1.9",
+    "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "mockjs": "^1.0.0",
     "parseurl": "^1.3.0",
     "path-to-regexp": "^1.2.1",
-    "qs": "^6.0.1"
+    "qs": "^6.0.1",
+    "serve-index": "^1.7.3",
+    "serve-static": "^1.10.2"
   },
   "devDependencies": {
     "morgan": "^1.6.1"

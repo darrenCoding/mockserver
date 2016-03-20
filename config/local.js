@@ -13,10 +13,10 @@ module.exports = {
 		}
 	},
 	"mockMap" : [
-		{
+		/*{
 			"host" : "10.207.28.123",
 			"port" : "8033"
-		},
+		},*/
 		"mock"
 	]
 }
