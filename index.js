@@ -3,21 +3,30 @@
 
 var app = require('connect')();
 var compress = require('compression');
-var routes = require('./Routes')();
 var logger = require('morgan');
+var serveStatic = require('serve-static');
+var serveIndex = require('serve-index');
+var routes = require('./Routes')();
+var util = require('./lib/util');
 var log4js = require('./config/log')
 var server;
 
 exports = module.exports = mainApp;
 
-function mainApp(port){
+function mainApp(dir,port,fn){
 	// 配置中间件
+	app.use(serveStatic(dir,{'index': ['index.html']}));
+	app.use(serveIndex(dir, {'icons': true}));
 	app.use(logger('dev'));
 	app.use(compress());
 	app.use(routes.router);
 	app.use(routes.pageErr);
 	app.use(routes.serverErr);
-	server = app.listen(port);
+	server = app.listen(port,function(){
+		port = (port != '80' ? ':' + port : '');
+		var url = "http://" + util.getLocalIp() + port + '/';
+		fn(url)
+	});
 }
 
 process.on('uncaughtException', function(err) {

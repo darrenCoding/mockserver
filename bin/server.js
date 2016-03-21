@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
-var serveStatic = require('serve-static');
-var serveIndex = require('serve-index');
 var colors = require('colors');
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
-var util = require('../lib/util');
+var entry = require('../start');
 var argv = require("minimist")(process.argv.slice(2),{
   alias: {
     'brower': 'b',
@@ -24,6 +22,7 @@ if(argv.help){
   console.log(colors.red("  mockserver --help      print help information"));
   console.log(colors.red("  mockserver -p 8000     8000 as port"));
   console.log(colors.red("  mockserver -b          don't open browser"));
+  console.log(colors.red("  mockserver -d /user    user as root"));
   process.exit(0);
 }
 
@@ -39,3 +38,6 @@ function openURL(url){
       spawn('xdg-open', [url]);
   }
 };
+
+var openfn = !argv.b ? openURL : function(){};
+entry(argv.dir,argv.port,openfn)
