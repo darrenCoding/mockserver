@@ -5,7 +5,6 @@ var app = require('connect')();
 var compress = require('compression');
 var routes = require('./Routes')();
 var logger = require('morgan');
-var util = require('./lib/util');
 var log4js = require('./config/log')
 var server;
 

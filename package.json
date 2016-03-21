@@ -10,12 +10,13 @@
   "scripts": {
     "start": "node start"
   },
-  "bin" : {
-    "mockserver" : "./bin/server.js" 
+  "bin": {
+    "mockserver": "./bin/server.js"
   },
   "author": "darren",
   "license": "MIT",
   "dependencies": {
+    "colors": "^1.1.2",
     "compression": "^1.6.0",
     "connect": "^3.4.0",
     "iconv-lite": "^0.4.13",
