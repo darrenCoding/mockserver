@@ -22,7 +22,7 @@ if(argv.help){
   console.log(colors.green("Usage:"));
   console.log(colors.red("  mockserver             start server, 8011 as default port"));
   console.log(colors.red("  mockserver --help      print help information"));
-  console.log(colors.red("  mockserver -p 8989     8989 as port"));
+  console.log(colors.red("  mockserver -p 8000     8000 as port"));
   console.log(colors.red("  mockserver -b          don't open browser"));
   process.exit(0);
 }
@@ -39,5 +39,3 @@ function openURL(url){
       spawn('xdg-open', [url]);
   }
 };
-
-
