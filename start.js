@@ -5,7 +5,6 @@
 var startFn = require('./index');
 // 默认配置
 var setting = require('./config').mock;
-//获取端口
 
 module.exports = function(d,p,cb){
 	var dir = d || process.cwd(),
