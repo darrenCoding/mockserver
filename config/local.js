@@ -5,7 +5,7 @@
 module.exports = {
 	"mock" : {
 		"port" : 8011, //启动端口
-		"apiPath" : "../api", //mock文件存放目录
+		"apiPath" : "../mockfile", //mock文件存放目录
 		"jsonPath" : "../interface/", //接口配置文件存放目录
 		"route" : { //路由配置
 			"/api?mockData=:name" : "fn mockStart",
