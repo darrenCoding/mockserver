@@ -18,5 +18,6 @@ module.exports = {
 			"port" : "8033"
 		},*/
 		"mock"
-	]
+	],
+	'log' : '' //日志路径
 }
