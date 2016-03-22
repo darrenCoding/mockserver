@@ -12,6 +12,7 @@ var slice = Array.prototype.slice;
 
 var conRoute = module.exports = (function(){
 	function route(req,res,next){
+		console.log(req.url);
 		route.handle(req,res,next)
 	};
 	route.__proto__ = conRoute;
