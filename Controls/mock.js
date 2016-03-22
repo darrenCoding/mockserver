@@ -14,7 +14,6 @@ var version = {};
 
 exports.mockStart = function(req,res,next) {
 	var jsonPath = path.resolve(__dirname,setting.mock.jsonPath + req.query.mockData);
-	console.dir(req.query);
 	File.exist(jsonPath + ".json").read(function(data,err){
 		if(!err){
 			try{
