@@ -9,7 +9,6 @@ var path = require('path');
 var File = require('../lib/file');
 var setting = require('../config/');
 var log4js = require('../config/log');
-var mockdoc = require('../mockdoc/mockdoc');
 var version = {};
 
 exports.mockStart = function(req,res,next) {
@@ -22,8 +21,6 @@ exports.mockStart = function(req,res,next) {
 				log4js.logger_e.error(err.stack);
 				return next('The data of file must be JSON format')
 			}
-			mockdoc.setting.baseurl = jsonPath;
-			mockdoc.readfile(req.query.mockData);
 			var direcPath = path.resolve(__dirname,setting.mock.apiPath,req.query.mockData);
 			File.exist(direcPath).then(function(path){
 				var id = req.query.id,

@@ -1,16 +1,21 @@
 #!/usr/bin/env node
 
 var colors = require('colors');
+var path = require('path');
+var chokidar = require('chokidar');
+var setting = require('../config');
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var entry = require('../start');
 var argv = require("minimist")(process.argv.slice(2),{
   alias: {
     'brower': 'b',
-    'port': 'p'
+    'port': 'p',
+    'dir' : 'd',
+    'watch' : 'w'
   },
-  string: 'port',
-  boolean: ['brower','help'],
+  string: ['port','dir'],
+  boolean: ['brower','help','watch'],
   unknown : function(){
     console.log(colors.magenta("error : the commander is illegal"));
   }
@@ -23,7 +28,21 @@ if(argv.help){
   console.log(colors.red("  mockserver -p 8000     8000 as port"));
   console.log(colors.red("  mockserver -b          don't open browser"));
   console.log(colors.red("  mockserver -d /user    user as root"));
+  console.log(colors.red("  mockserver -w          if watch changes of files or folders"));
   process.exit(0);
+}
+
+if(argv.w){
+  var watcher = chokidar.watch(setting.mock.jsonPath, {
+    persistent: true
+  });
+  watcher.on("ready",function(){
+  })
+  watcher.on("error",function(){
+  })
+  watcher.on("change",function(path,stats){
+    
+  })
 }
 
 function openURL(url){
