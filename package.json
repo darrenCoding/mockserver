@@ -16,6 +16,7 @@
   "author": "darren",
   "license": "MIT",
   "dependencies": {
+    "browser-sync": "^2.11.1",
     "colors": "^1.1.2",
     "compression": "^1.6.0",
     "connect": "^3.4.0",
