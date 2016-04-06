@@ -38,9 +38,6 @@ if(argv.w){
   var watcher = chokidar.watch(setting.mock.jsonPath, {
     persistent: true
   });
-  watcher.on("error",function(){
-
-  })
   watcher.on("change",function(paths,stats){
     var fname = path.basename(paths,'.json'),
         direcPath;
