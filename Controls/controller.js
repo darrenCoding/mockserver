@@ -20,6 +20,7 @@ var conRoute = module.exports = (function(){
 
 conRoute.handle = function(req,res,next){
 	if(req.url !== '/favicon.ico'){
+		console.log(req.url);
 		util.parse(req);
 		var mapIndex = 0,
 			viaHeaders = [],

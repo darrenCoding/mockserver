@@ -46,6 +46,12 @@ exports.mockStart = function(req,res,next) {
 	})
 }
 
+var updateFile = exports.updateFile = function(data,directorPath,routes,type){
+	var inf = util.deps(data),
+		filePath = path.join(directorPath,'/',routes + "_" + type +'.json');
+	fs.writeFileSync(filePath,JSON.stringify(Mock.mock(inf),null,4));
+}
+
 exports.getFile = function(req,res,next,reg){
 	var realFile = req.url.match(reg)[1],
 		realRoute = req.url.match(reg)[2].split("?")[0],
@@ -141,10 +147,4 @@ function endRequest(req,res,filePath,callback){
 				   .set("Content-Type","application/javascript")
 				   .send(callback + '(' + str + ')') : res.status(200).send(JSON.parse(str));
 	})
-}
-
-exports.updateFile = function updateFile(data,directorPath,routes,type){
-	var inf = util.deps(data),
-		filePath = path.join(directorPath,'/',routes + "_" + type +'.json');
-	fs.writeFileSync(filePath,JSON.stringify(Mock.mock(inf),null,4));
 }

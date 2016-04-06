@@ -38,9 +38,6 @@ if(argv.w){
   var watcher = chokidar.watch(setting.mock.jsonPath, {
     persistent: true
   });
-  watcher.on("ready",function(){
-
-  })
   watcher.on("error",function(){
 
   })
