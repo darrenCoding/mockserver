@@ -51,9 +51,6 @@ if(argv.w){
         log4js.logger_e.error(err.stack);
       }
       direcPath = path.resolve(__dirname,setting.mock.apiPath,fname);
-      if(version[fname] === jsonData['version']){
-          return console.warn("version has not update");
-      }
       jsonData["interfaces"].forEach(function(item,index,arr){
         ufile.updateFile(item['data'],direcPath,item['routes'],item['type']);
       });
