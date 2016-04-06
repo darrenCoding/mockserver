@@ -7,6 +7,8 @@ var setting = require('../config');
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var entry = require('../start');
+var File = require('../lib/file');
+var ufile = require('../Controls/mock');
 var argv = require("minimist")(process.argv.slice(2),{
   alias: {
     'brower': 'b',
@@ -37,11 +39,28 @@ if(argv.w){
     persistent: true
   });
   watcher.on("ready",function(){
+
   })
   watcher.on("error",function(){
+
   })
-  watcher.on("change",function(path,stats){
-    
+  watcher.on("change",function(paths,stats){
+    var fname = path.basename(paths,'.json'),
+        direcPath;
+    File.exist(paths).read(function(data,err){
+      try{
+        var jsonData = JSON.parse(data);
+      }catch(err){
+        log4js.logger_e.error(err.stack);
+      }
+      direcPath = path.resolve(__dirname,setting.mock.apiPath,fname);
+      if(version[fname] === jsonData['version']){
+          return console.warn("version has not update");
+      }
+      jsonData["interfaces"].forEach(function(item,index,arr){
+        ufile.updateFile(item['data'],direcPath,item['routes'],item['type']);
+      });
+    })
   })
 }
 

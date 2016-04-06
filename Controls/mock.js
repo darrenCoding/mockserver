@@ -9,7 +9,7 @@ var path = require('path');
 var File = require('../lib/file');
 var setting = require('../config/');
 var log4js = require('../config/log');
-var version = {};
+global.version = {};
 
 exports.mockStart = function(req,res,next) {
 	var jsonPath = path.resolve(__dirname,setting.mock.jsonPath + req.query.mockData);
@@ -143,8 +143,8 @@ function endRequest(req,res,filePath,callback){
 	})
 }
 
-function updateFile(data,directorPath,routes,type){
+exports.updateFile = function updateFile(data,directorPath,routes,type){
 	var inf = util.deps(data),
-		filePath = path.join(directorPath,'/',routes + "_" + type +'.json');	
+		filePath = path.join(directorPath,'/',routes + "_" + type +'.json');
 	fs.writeFileSync(filePath,JSON.stringify(Mock.mock(inf),null,4));
 }
