@@ -15,17 +15,19 @@ exports = module.exports = mainApp;
 
 function mainApp(dir,port,fn){
 	// 配置中间件
-	app.use(serveStatic(dir,{'index': ['index.html']}));
-	app.use(serveIndex(dir, {'icons': true}));
+	dir && app.use(serveStatic(dir,{'index': ['index.html']}));
+	dir && app.use(serveIndex(dir, {'icons': true}));
 	app.use(logger('dev'));
 	app.use(compress());
 	app.use(routes.router);
 	app.use(routes.pageErr);
 	app.use(routes.serverErr);
 	server = app.listen(port,function(){
-		port = (port != '80' ? ':' + port : '');
-		var url = "http://" + util.getLocalIp() + port + '/';
-		fn(url)
+		if(fn){
+			port = (port != '80' ? ':' + port : '');
+			var url = "http://" + util.getLocalIp() + port + '/';
+			fn(url)
+		}
 	});
 }
 
