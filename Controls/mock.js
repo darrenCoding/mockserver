@@ -3,16 +3,17 @@
 
 var Mock = require('mockjs');
 var fs = require("fs");
+var path = require('path');
+var mkdirp = require('mkdirp');
 var iconv = require('iconv-lite');
 var util = require('../lib/util');
-var path = require('path');
 var File = require('../lib/file');
-var setting = require('../config/');
 var log4js = require('../config/log');
 global.version = {};
+var cwd = process.cwd();
 
 exports.mockStart = function(req,res,next) {
-	var jsonPath = path.resolve(__dirname,setting.mock.jsonPath + req.query.mockData);
+	var jsonPath = path.resolve(cwd,lastConfig.mock.jsonPath + req.query.mockData);
 	File.exist(jsonPath + ".json").read(function(data,err){
 		if(!err){
 			try{
@@ -21,12 +22,12 @@ exports.mockStart = function(req,res,next) {
 				log4js.logger_e.error(err.stack);
 				return next('The data of file must be JSON format')
 			}
-			var direcPath = path.resolve(__dirname,setting.mock.apiPath,req.query.mockData);
+			var direcPath = path.resolve(cwd,lastConfig.mock.apiPath,req.query.mockData);
 			File.exist(direcPath).then(function(path){
 				var id = req.query.id,
 					data = req.query.mockData;
 				if(!path){
-					fs.mkdir(direcPath,function(err){
+					mkdirp(direcPath,function(err){
 						if(!err){
 							version[req.query.mockData] = "";
 							startRequest(req,res,id,data,direcPath,jsonData,next);
@@ -57,8 +58,8 @@ exports.getFile = function(req,res,next,reg){
 		realRoute = req.url.match(reg)[2].split("?")[0],
 		callback = req.query.callback,
 		method = req.method.toLowerCase(),
-		dicPath = path.join(setting.mock.apiPath,realFile,realRoute + "_" + method + '.json'),
-		realPath = path.resolve(__dirname,dicPath);
+		dicPath = path.join(lastConfig.mock.apiPath,realFile,realRoute + "_" + method + '.json'),
+		realPath = path.resolve(cwd,dicPath);
 	File.exist(realPath).then(function(path){
 		if(path){
 			endRequest(req,res,realPath,callback);

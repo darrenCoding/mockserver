@@ -24,7 +24,7 @@ log4js.configure({
     replaceConsole: true
   },
   {
-      cwd : setting.log || process.cwd()
+    cwd : setting.log || process.cwd()
   }
 );
 

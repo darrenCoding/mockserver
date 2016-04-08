@@ -4,7 +4,6 @@
 var pathReg = require('path-to-regexp');
 var combo = require('static-combo');
 var util = require('../lib/util');
-var setting = require('../config');
 var path = require('path');
 var mock = require('./mock');
 var http = require('http');
@@ -26,9 +25,9 @@ conRoute.handle = function(req,res,next){
 			util.parse(req);
 			var mapIndex = 0,
 				viaHeaders = [],
-				mapLen = Object.keys(setting.mock.route).length,
+				mapLen = Object.keys(lastConfig.mock.route).length,
 				reg;
-			util.each(setting.mockMap,function(i,host,go){
+			util.each(lastConfig.mockMap,function(i,host,go){
 				if(util.getType(host) === 'object'){
 					viaHeaders.push(host['host']);
 					res.set('X-Forwarded-For',viaHeaders.join(","));
@@ -58,11 +57,11 @@ conRoute.handle = function(req,res,next){
 				}else{
 					viaHeaders.push('mock');
 					res.set('X-Forwarded-For',viaHeaders.join(","));
-					for(var attr in setting.mock.route){
+					for(var attr in lastConfig.mock.route){
 						reg = pathReg(attr);
-						if (setting.mock.route.hasOwnProperty(attr)){
+						if (lastConfig.mock.route.hasOwnProperty(attr)){
 							if(reg.test(req.url)){
-								mock[getFn(setting.mock.route[attr])](req,res,next,reg);
+								mock[getFn(lastConfig.mock.route[attr])](req,res,next,reg);
 								return;
 							}else{
 								mapIndex++;
@@ -81,7 +80,7 @@ conRoute.handle = function(req,res,next){
 			})
 			combo(req.url,(err,data,deps) => {
 				if(err){
-                    res.end(err);
+                    next(err);
                 }else{
                     res.end(new Buffer(data));
                 }

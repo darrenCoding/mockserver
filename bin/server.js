@@ -2,24 +2,28 @@
 
 var colors = require('colors');
 var path = require('path');
+var fs = require('fs');
 var chokidar = require('chokidar');
-var setting = require('../config');
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
+var setting = require('../config');
 var entry = require('../start');
 var File = require('../lib/file');
+var util = require('../lib/util');
 var ufile = require('../Controls/mock');
+var mockFile;
 var argv = require("minimist")(process.argv.slice(2),{
   alias: {
     'brower': 'b',
     'port': 'p',
     'dir' : 'd',
-    'watch' : 'w'
+    'watch' : 'w',
+    'file' : 'f'
   },
-  string: ['port','dir'],
+  string: ['port','dir','file'],
   boolean: ['brower','help','watch'],
   unknown : function(){
-    console.log(colors.magenta("error : the commander is illegal"));
+    console.error(colors.magenta("[ERROR] the commander is illegal"));
   }
 });
 
@@ -31,11 +35,26 @@ if(argv.help){
   console.log(colors.red("  mockserver -b          don't open browser"));
   console.log(colors.red("  mockserver -d /user    user as root"));
   console.log(colors.red("  mockserver -w          if watch changes of files or folders"));
+  console.log(colors.red("  mockserver -f          the location of the configuration file"));
   process.exit(0);
 }
 
+
+var cwd = (argv.f && typeof argv.f === 'string') ? argv.f : process.cwd();
+mockFile = path.resolve(cwd, 'mock.json');
+
+if(fs.existsSync(mockFile)){
+  try{
+    global.lastConfig = util.mix(setting,JSON.parse(fs.readFileSync(mockFile,'utf-8')));
+  }catch(e){
+    console.error(colors.magenta("[ERROR] parse error"));
+  }
+}else{
+  console.warn(colors.magenta('[WARN] mock file not found!'));
+}
+
 if(argv.w){
-  var watcher = chokidar.watch(setting.mock.jsonPath, {
+  var watcher = chokidar.watch(lastConfig.mock.jsonPath, {
     persistent: true
   });
   watcher.on("change",function(paths,stats){
@@ -47,7 +66,7 @@ if(argv.w){
       }catch(err){
         log4js.logger_e.error(err.stack);
       }
-      direcPath = path.resolve(__dirname,setting.mock.apiPath,fname);
+      direcPath = path.resolve(__dirname,lastConfig.mock.apiPath,fname);
       jsonData["interfaces"].forEach(function(item,index,arr){
         ufile.updateFile(item['data'],direcPath,item['routes'],item['type']);
       });
